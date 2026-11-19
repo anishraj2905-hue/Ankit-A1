@@ -1,72 +1,63 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ankit AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Ankit AI ✨</title>
 <style>
-*{box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:#0f172a;color:#fff;margin:0;display:flex;flex-direction:column;height:100vh;height:100dvh}
-header{background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-#chat{flex:1;padding:15px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:88%;padding:12px 16px;border-radius:14px;line-height:1.5;font-size:15px;white-space:pre-wrap}
-.msg.user{background:#6366f1;align-self:flex-end}
-.msg.ai{background:#334155;align-self:flex-start}
-.msg img{max-width:100%;border-radius:12px;margin-top:8px;display:block}
-.welcome{text-align:center;color:#94a3b8;margin:auto}.welcome h2{color:#fff}
-.top{display:flex;gap:6px;padding:8px 12px;flex-wrap:wrap}.top button{padding:7px 12px;border-radius:999px;border:1px solid #ffffff33;background:transparent;color:#fff;font-size:12px}.top button.active{background:#6366f1}
-.input-area{display:flex;padding:10px;background:#1e293b;gap:6px;align-items:center}
-input[type=text]{flex:1;padding:12px;background:#0f172a;border:1px solid #ffffff33;color:#fff;border-radius:10px;outline:none}
-.iconBtn{width:44px;height:44px;border-radius:50%;border:0;font-size:20px;background:#1e293b;color:#fff;flex-shrink:0}
-.sendBtn{background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:0;padding:12px 16px;border-radius:10px;font-weight:600}
-#previewBox{display:none;padding:8px 12px;background:#1e293b;align-items:center;gap:10px}#previewBox img{width:56px;height:56px;object-fit:cover;border-radius:10px}
-.sBtn{font-size:12px;background:#ffffff22;border:0;color:#fff;padding:5px 10px;border-radius:999px;margin-top:6px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Arial}
+html,body{height:100dvh;background:#020617;color:#fff;overflow:hidden}
+body{display:flex;flex-direction:column;position:relative}
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(1px 1px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 10%,#fff,transparent),radial-gradient(1px 1px at 80% 40%,#fff,transparent),radial-gradient(1px 1px at 30% 70%,#fff,transparent),radial-gradient(1px 1px at 90% 80%,#fff,transparent),radial-gradient(1px 1px at 10% 90%,#fff,transparent);animation:twinkle 2s infinite alternate}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+header{flex-shrink:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(2,6,23,.8);backdrop-filter:blur(10px)}
+header b{font-size:19px} header span{font-size:12px;color:#93c5fd}
+.topBtns{flex-shrink:0;z-index:2;display:flex;gap:8px;padding:8px 10px;overflow-x:auto;white-space:nowrap}
+.topBtns button{border:1px solid #3b82f6;background:rgba(30,58,138,.6);color:#fff;padding:8px 14px;border-radius:20px;font-size:14px;cursor:pointer;flex-shrink:0}
+.topBtns button.active{background:#2563eb}
+.globeWrap{flex-shrink:0;z-index:1;text-align:center;padding:4px 0 0}
+.globe{width:90px;height:90px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 30%,#60a5fa,#1e40af 55%,#020617);box-shadow:0 0 30px #3b82f6, inset -10px -10px 20px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-size:42px;animation:spin 12s linear infinite}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+#chat{flex:1;min-height:0;overflow-y:auto;z-index:2;padding:12px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.msg{max-width:88%;padding:12px 14px;border-radius:18px;font-size:16px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+.user{align-self:flex-end;background:#7c5cff;border-bottom-right-radius:5px}
+.ai{align-self:flex-start;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-bottom-left-radius:5px;backdrop-filter:blur(10px)}
+.ai img{max-width:100%;border-radius:12px;margin-top:8px}
+.searchWrap{flex-shrink:0;position:sticky;bottom:0;z-index:5;display:flex;gap:8px;padding:10px;background:rgba(2,6,23,.85);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.15);padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.searchWrap button{width:44px;height:46px;border-radius:50%;border:none;font-size:20px;cursor:pointer;background:#1e293b;color:#fff;flex-shrink:0}
+#input{flex:1;border:none;outline:none;background:#1e293b;color:#fff;padding:0 16px;border-radius:25px;font-size:16px;min-width:0}
+#send{background:#7c5cff}
 </style>
 </head>
 <body>
-<header><b>Ankit AI ✨</b><span>🟢 Online</span></header>
-<div class="top">
-<button id="voiceBtn" class="active" onclick="toggleVoice()">🔊 Voice ON</button>
-<button id="modeChat" class="active" onclick="setMode('chat')">💬 Chat</button>
-<button id="modeImg" onclick="setMode('image')">🎨 Image Banao</button>
+<div class="stars"></div>
+<header><div><b>Ankit AI ✨</b><br><span>Apna Desi AI Dost</span></div><div>🌎</div></header>
+<div class="topBtns">
+<button id="voiceBtn" onclick="toggleVoice()">🔊 Voice ON</button>
+<button onclick="setMode('chat')">💬 Chat</button>
+<button onclick="setMode('image')">🎨 Image Banao</button>
 <button onclick="clearChat()">🗑️ Clear</button>
 </div>
-<div id="chat"><div class="welcome" id="welcome"><h2>नमस्ते! मैं Ankit AI हूँ ✨</h2><p>लिखो, बोलो, फोटो भेजो या फोटो बनवाओ!</p></div></div>
-<div id="previewBox"><img id="imgPreview"><span id="imgName" style="flex:1;font-size:13px"></span><button onclick="removeImage()" style="background:#ef4444;color:#fff;border:0;padding:6px 10px;border-radius:8px">✕</button></div>
-<div class="input-area">
-<button class="iconBtn" onclick="document.getElementById('fileInput').click()">📷</button>
-<input type="file" id="fileInput" accept="image/*" hidden onchange="onImageSelect(event)">
-<button class="iconBtn" id="micBtn" onclick="startListening()">🎤</button>
-<input type="text" id="message" placeholder="Likho... Hi likh ke dekho" onkeydown="if(event.key==='Enter') sendMessage()">
-<button class="sendBtn" onclick="sendMessage()">भेजें</button>
+<div class="globeWrap"><div class="globe">🌎</div></div>
+<div id="chat"><div class="msg ai">Namaste! 🙏 Main Ankit AI hu. Kuch bhi pucho, Hindi me samjha dunga. Neeche likho ya bolo!</div></div>
+<div class="searchWrap">
+<button onclick="startVoice()">🎤</button>
+<input id="input" placeholder="Yahan likho..." onkeydown="if(event.key==='Enter')sendMsg()">
+<button id="plus" onclick="document.getElementById('file').click()">+</button>
+<button id="send" onclick="sendMsg()">➤</button>
 </div>
+<input type="file" id="file" hidden accept="image/*" onchange="sendImage(event)">
 <script>
-const chat=document.getElementById("chat");
-let voiceOn=true, selectedImage=null, mode='chat', isListening=false, recognition=null;
-function setMode(m){mode=m;document.getElementById('modeChat').classList.toggle('active',m==='chat');document.getElementById('modeImg').classList.toggle('active',m==='image');}
-function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voiceBtn').innerText=voiceOn?'🔊 Voice ON':'🔇 Voice OFF';}
-function clearChat(){chat.innerHTML='<div class="welcome" id="welcome"><h2>नमस्ते! मैं Ankit AI हूँ ✨</h2></div>';}
-function addMessage(text,type,imgSrc=null){const w=document.getElementById("welcome");if(w)w.remove();const div=document.createElement("div");div.className="msg "+type;if(imgSrc){const im=document.createElement("img");im.src=imgSrc;div.appendChild(im);}const t=document.createElement("div");t.textContent=text;div.appendChild(t);chat.appendChild(div);chat.scrollTop=chat.scrollHeight;return div;}
-function onImageSelect(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=(ev)=>{selectedImage=ev.target.result;document.getElementById("imgPreview").src=selectedImage;document.getElementById("imgName").innerText=f.name;document.getElementById("previewBox").style.display="flex";};r.readAsDataURL(f);}
-function removeImage(){selectedImage=null;document.getElementById("previewBox").style.display="none";}
-function startListening(){if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert("Chrome me kholo");return;}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;recognition=new SR();recognition.lang='hi-IN';recognition.onresult=(e)=>{document.getElementById("message").value=e.results[0][0].transcript;sendMessage();};recognition.start();}
-function speak(text){if(!voiceOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text.replace(/[*#]/g,'').slice(0,500));u.lang='hi-IN';speechSynthesis.speak(u);}catch(e){}}
-function localBrain(text){const l=text.toLowerCase().trim();if(l==="hi"||l==="hello"||l==="hey"||l.includes("namaste"))return "Namaste! 🙏 Main Ankit AI hu. Kaise ho? Batao aaj kya madad karu?";if(l.includes("kaise ho"))return "Main ekdum badhiya hu! Tum batao, tum kaise ho?";if(l.includes("naam"))return "Mera naam Ankit AI hai. Mujhe Ankit ne banaya hai!";return null;}
-async function callAI(text){try{const r=await fetch(`https://text.pollinations.ai/${encodeURIComponent("Tum Ankit AI ho, Hindi me short jawab do. Sawal: "+text)}?model=openai`);if(r.ok){const t=await r.text();if(t&&t.length>3)return t.trim();}}catch(e){}throw new Error("fail");}
-function isImageRequest(t){const l=t.toLowerCase();return mode==='image'||l.includes("image banao")||l.includes("photo banao");}
-async function sendMessage(){
- const input=document.getElementById("message");let text=input.value.trim();const imgToSend=selectedImage;
- if(!text&&imgToSend)text="Is photo me kya hai?";if(!text&&!imgToSend)return;
- input.value="";addMessage(text,"user",imgToSend);if(imgToSend)removeImage();
- if(isImageRequest(text)&&!imgToSend){
-  let prompt=text.replace(/image banao|photo banao|banao/gi,"").trim()||text;
-  const loading=addMessage(`🎨 Image bana raha hu: "${prompt}"...`,"ai");
-  const seed=Math.floor(Math.random()*99999);const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt+", high quality, 4k")}?width=1024&height=1024&seed=${seed}&model=flux&nologo=true`;
-  const im=new Image();im.onload=()=>{loading.innerHTML="";const d=document.createElement("div");d.textContent=`🎨 Ho gayi! "${prompt}"`;loading.appendChild(d);const img=document.createElement("img");img.src=url;loading.appendChild(img);speak("Tumhari image ban gayi!");};im.onerror=()=>{loading.textContent="Dobara try karo.";};im.src=url;return;
- }
- const loading=addMessage("Ankit AI soch raha hai...","ai");
- const localAns=localBrain(text);
- if(localAns){loading.textContent=localAns;speak(localAns);return;}
- try{const reply=await callAI(text);if(reply){loading.textContent=reply;speak(reply);}else loading.textContent="Dobara puchho.";}catch(e){loading.textContent="Net thoda slow hai, 'Hi' likh ke dekho.";}
-}
+let voiceOn=true, mode='chat';
+let chatBox=document.getElementById('chat');
+function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voiceBtn').innerText=voiceOn?'🔊 Voice ON':'🔇 Voice OFF';if(!voiceOn)speechSynthesis.cancel();}
+function setMode(m){mode=m;addMsg('ai',m==='image'?'Image Mode ON hai 🎨 Ab kya image banau? Likho jaise - "ek billi"':'Chat Mode ON hai 💬 Ab pucho!');}
+function addMsg(who,text){let d=document.createElement('div');d.className='msg '+who;d.innerText=text;chatBox.appendChild(d);chatBox.scrollTop=chatBox.scrollHeight;return d;}
+function speak(text){if(!voiceOn)return;try{speechSynthesis.cancel();let clean=text.replace(/[*#_<>]/g,'').replace(/\n+/g,'. ');let parts=clean.match(/.{1,400}(\s|$)/g)||[clean];let i=0;function speakNext(){if(i>=parts.length||!voiceOn)return;const u=new SpeechSynthesisUtterance(parts[i]);u.lang='hi-IN';u.rate=1;u.onend=()=>{i++;speakNext();};speechSynthesis.speak(u);}speakNext();}catch(e){}}
+async function sendMsg(){let inp=document.getElementById('input');let q=inp.value.trim();if(!q)return;addMsg('user',q);inp.value='';if(mode==='image'){let div=addMsg('ai','Image bana raha hu... 🎨');let img=document.createElement('img');img.src='https://image.pollinations.ai/prompt/'+encodeURIComponent(q)+'?seed='+Date.now();img.onload=()=>{div.innerHTML='Ye lo tumhari image! 🎨';div.appendChild(img);speak('Ye lo tumhari image ban gayi');};img.onerror=()=>{div.innerText='Image nahi bani, phir se try karo';};return;}let div=addMsg('ai','Soch raha hu... 🤔');try{let r=await fetch('https://text.pollinations.ai/'+encodeURIComponent('Hinglish me simple Hindi-English mix me samjhao, jaise dost samjhata hai. Sawal: '+q));let ans=await r.text();div.innerText=ans;chatBox.scrollTop=chatBox.scrollHeight;speak(ans);}catch(e){div.innerText='Net slow hai, phir se try karo!';}}
+function clearChat(){chatBox.innerHTML='';addMsg('ai','Chat clear ho gaya! ✨ Naya sawal pucho.');speechSynthesis.cancel();}
+function startVoice(){let Rec=window.SpeechRecognition||window.webkitSpeechRecognition;if(!Rec){alert('Mic is browser me nahi chalega, Chrome me kholo');return;}let rec=new Rec();rec.lang='hi-IN';rec.onresult=e=>{document.getElementById('input').value=e.results[0][0].transcript;sendMsg();};rec.start();}
+function sendImage(e){let f=e.target.files[0];if(!f)return;let rd=new FileReader();rd.onload=()=>{addMsg('user','[Photo bheji]');let div=addMsg('ai','Photo dekh li! 👀 Isme kya karna hai? Batao.');speak('Photo dekh li, batao isme kya karna hai');};rd.readAsDataURL(f);}
 </script>
 </body>
 </html>
